@@ -4,6 +4,7 @@ import { getSession } from "@/utils/lib";
 import { getDay, getDate } from "@/utils/dateUtils";
 import { connectToDb } from "@/utils/db";
 import WeeklyExpense from "@/models/Expenses";
+import { revalidatePath } from "next/cache";
 
 export const addExpense = async (prevState, formData) => {
   const expenseSchema = z.object({
@@ -40,6 +41,7 @@ export const addExpense = async (prevState, formData) => {
         try {
           weeklyExpense.expenses.push(newExpense);
           await weeklyExpense.save();
+          revalidatePath("/analytics");
           return {
             success: true,
             message: "Expense added successfully.",
@@ -62,6 +64,8 @@ export const addExpense = async (prevState, formData) => {
           ],
         });
         await newWeeklyExpense.save();
+        revalidatePath("/analytics");
+
         return {
           success: true,
           message: "New expense added successfully.",
