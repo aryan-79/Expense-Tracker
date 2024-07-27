@@ -72,7 +72,7 @@ export const addExpense = async (prevState, formData) => {
         };
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       return {
         success: false,
         message: "Failed to add expense.",
@@ -80,7 +80,7 @@ export const addExpense = async (prevState, formData) => {
       };
     }
   } else {
-    console.log(result.error);
+    // console.log(result.error);
     return {
       success: false,
       message: result.error.issues[0].message,

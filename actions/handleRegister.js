@@ -37,7 +37,6 @@ export const handleRegister = async (prevState, formData) => {
       const hashedPassword = await bcrypt.hash(data.password, 10);
       // console.log("hashed password: ", hashedPassword);
       const newUser = new User({ ...data, password: hashedPassword });
-      s;
       await newUser.save();
       return {
         success: true,

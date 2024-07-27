@@ -26,9 +26,10 @@ export const getExpenseByCategory = async (userId, category) => {
     let filteredResult = [];
     results.map((result) => {
       filteredResult.push(
-        result.expenses.filter((expense) => expense.category === category)[0]
+        result.expenses.filter((expense) => expense.category === category)
       );
     });
+    console.log(`filtered result ${category} : ${filteredResult}`);
     filteredResult = filteredResult.filter((item) => item);
     // console.log("filteredResult fib", filteredResult);
 

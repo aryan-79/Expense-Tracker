@@ -4,6 +4,7 @@ import { connectToDb } from "@/utils/db";
 import { login, getSession } from "@/utils/lib";
 import User from "@/models/User";
 import bcrypt from "bcrypt";
+import { redirect } from "next/navigation";
 
 export const handleLogin = async (formData) => {
   const loginFormSchema = z.object({
@@ -27,15 +28,19 @@ export const handleLogin = async (formData) => {
       const user = await User.findOne({ email: data.email });
       if (user) {
         const match = await bcrypt.compare(data.password, user.password);
+        console.log("matched", match);
         if (match) {
-          await login(user);
+          const res = await login(user);
+          return res;
         } else {
+          console.log("not matched");
           return {
             success: false,
             message: "Email or password is wrong",
           };
         }
       } else {
+        console.log("user not found");
         return {
           success: false,
           message: "User not found",

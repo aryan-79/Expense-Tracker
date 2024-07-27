@@ -24,6 +24,7 @@ export async function login(user) {
   const session = await encrypt({ user, expires });
 
   cookies().set("session", session, { expires, httpOnly: true });
+  return { success: true, message: "Login successful" };
 }
 
 export async function logout() {

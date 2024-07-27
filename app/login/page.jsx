@@ -6,10 +6,20 @@ import { useFormState } from "react-dom";
 import { clsx } from "clsx";
 import { redirect } from "next/navigation";
 const LoginPage = () => {
-  const [state, formAction] = useFormState((prevState, formData) => {
-    handleLogin(formData);
-    redirect("/dashboard");
-  }, {});
+  const [state, formAction] = useFormState(
+    async (prevState, formData) => {
+      const res = await handleLogin(formData);
+      if (res.success) {
+        redirect("/dashboard");
+      } else {
+        return res;
+      }
+    },
+    {
+      success: false,
+      message: "",
+    }
+  );
   const fields = [
     {
       label: "Email",

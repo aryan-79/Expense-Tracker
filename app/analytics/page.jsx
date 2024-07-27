@@ -66,17 +66,17 @@ const Analytics = async () => {
     "Groceries",
     "Transportation",
   ];
-
+  // const res = await getExpenseByCategory(session.user._id, "Entertainment");
+  // console.log("res", res);
   const eachCategoryTotal = await Promise.all(
     categories.map(async (category) => {
-      const allExpenses = await getExpenseByCategory(
-        session.user._id,
-        category
-      );
+      const res = await getExpenseByCategory(session.user._id, category);
+      const allExpenses = res.flat();
+      // console.log(`all expenses ${category}: [${allExpenses}]`);
       return allExpenses.reduce((sum, curr) => (sum += curr.amount), 0);
     })
   );
-  console.log("eachCategoryTotal", eachCategoryTotal);
+  console.log("each category total ", eachCategoryTotal);
   const barChartData = {
     labels: categories,
     datasets: [

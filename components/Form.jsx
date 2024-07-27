@@ -3,9 +3,15 @@ import logo from "@/public/logo.svg";
 import Image from "next/image";
 import { useFormStatus } from "react-dom";
 import { LoaderCircle } from "lucide-react";
+import { createRef } from "react";
 
 const Form = ({ children, ...props }) => {
   const { fields, action, submitText } = props;
+  const ref = createRef();
+  const handleSubmit = async (formData) => {
+    await action(formData);
+    ref.current.reset();
+  };
   const Submit = () => {
     const status = useFormStatus();
     return (
@@ -28,7 +34,7 @@ const Form = ({ children, ...props }) => {
   return (
     <div className="mx-auto p-2 px-8 h-[85vh] bg-gray-100 rounded-lg flex flex-col justify-center items-center gap-6 max-w-lg">
       <Image src={logo} alt="Logo" />
-      <form action={action} className="w-full space-y-4">
+      <form ref={ref} action={handleSubmit} className="w-full space-y-4">
         {fields.map((field) => (
           <div className="block space-y-2" key={field.name}>
             <label htmlFor={field.name} className="font-medium text-lg block">
